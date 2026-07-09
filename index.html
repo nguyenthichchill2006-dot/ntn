@@ -40,23 +40,20 @@
 
     <nav>
         <div class="logo" data-route="banner">HỆ<span>·</span>MẶT·TRỜI</div>
-        <ul class="nav-links">
+        <button type="button" id="navBurger" class="nav-burger" aria-label="Mở menu" aria-expanded="false" aria-controls="navLinks">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
             <li><a data-route="banner" data-i18n="navHome">Trang chủ</a></li>
             <li><a data-route="solar" data-i18n="navSolar">Vũ trụ 3D</a></li>
             <li><a data-route="planets" data-i18n="navPlanets">Hành tinh</a></li>
             <li><a data-route="quiz" data-i18n="navQuiz">Đố vui</a></li>
-            <li>
+            <li class="nav-utils">
                 <div class="lang-toggle" id="langToggle" title="Switch language / Đổi ngôn ngữ">
                     <span id="langBtnVi" data-lang="vi">VI</span><span id="langBtnEn" data-lang="en">EN</span>
                 </div>
-            </li>
-            <li>
                 <a id="themeToggle" title="Sáng/Tối" role="button" aria-label="Chuyển chế độ sáng/tối" tabindex="0" style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;border:1px solid var(--ov-2);cursor:pointer;">🌙</a>
-            </li>
-            <li>
                 <a id="musicToggle" title="Nhạc nền không gian" role="button" aria-label="Bật/tắt nhạc nền" tabindex="0" style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;border:1px solid var(--ov-2);cursor:pointer;">🔈</a>
-            </li>
-            <li>
                 <a id="fullscreenToggle" title="Toàn màn hình" role="button" aria-label="Bật/tắt toàn màn hình" tabindex="0" style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;border:1px solid var(--ov-2);cursor:pointer;">⛶</a>
             </li>
             <li id="navLoginItem"><a data-route="login" class="btn-ghost" data-i18n="navLogin">Đăng nhập</a></li>
@@ -66,6 +63,7 @@
                 <a id="navLogoutBtn" class="btn-ghost" data-i18n="navLogout">Đăng xuất</a>
             </li>
         </ul>
+        <div class="nav-backdrop" id="navBackdrop"></div>
     </nav>
 
     <!-- ================= PAGE: BANNER (HOME) ================= -->
