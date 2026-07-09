@@ -1174,7 +1174,38 @@ document.addEventListener('click', e => {
     if (!el) return;
     e.preventDefault();
     showPage(el.dataset.route);
+    closeMobileMenu();
 });
+
+/* ---------------- MOBILE NAV MENU (hamburger) ---------------- */
+(function initMobileNav() {
+    const navEl = document.querySelector('nav');
+    const burger = document.getElementById('navBurger');
+    const backdrop = document.getElementById('navBackdrop');
+    if (!navEl || !burger) return;
+
+    window.closeMobileMenu = function () {
+        navEl.classList.remove('menu-open');
+        burger.setAttribute('aria-expanded', 'false');
+    };
+
+    burger.addEventListener('click', () => {
+        const isOpen = navEl.classList.toggle('menu-open');
+        burger.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    if (backdrop) {
+        backdrop.addEventListener('click', window.closeMobileMenu);
+    }
+
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') window.closeMobileMenu();
+    });
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 880) window.closeMobileMenu();
+    });
+})();
 
 /* ---------------- PLANETS INFO PAGE ---------------- */
 const planetList = document.getElementById('planetList');
