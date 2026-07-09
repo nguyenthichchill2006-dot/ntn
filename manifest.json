@@ -1,0 +1,32 @@
+{
+  "name": "Hệ Mặt Trời — Cuộc Du Hành Giữa Các Vì Sao",
+  "short_name": "Hệ Mặt Trời",
+  "description": "Khám phá hệ Mặt Trời 3D tương tác: xoay hành tinh, xem thông tin chi tiết, so sánh và làm đố vui vũ trụ.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#05061a",
+  "theme_color": "#7c5cff",
+  "lang": "vi",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

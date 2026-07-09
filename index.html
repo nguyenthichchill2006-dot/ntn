@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Mặt Trời — Cuộc Du Hành Giữa Các Vì Sao</title>
+    <meta name="description" content="Khám phá hệ Mặt Trời 3D tương tác: xoay hành tinh, xem thông tin chi tiết, so sánh và làm đố vui vũ trụ.">
+    <meta property="og:title" content="Hệ Mặt Trời — Cuộc Du Hành Giữa Các Vì Sao">
+    <meta property="og:description" content="Trải nghiệm 3D tương tác về hệ Mặt Trời: khám phá, so sánh hành tinh và đố vui kiến thức vũ trụ.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="vi_VN">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Hệ Mặt Trời — Cuộc Du Hành Giữa Các Vì Sao">
+    <meta name="twitter:description" content="Trải nghiệm 3D tương tác về hệ Mặt Trời: khám phá, so sánh hành tinh và đố vui kiến thức vũ trụ.">
+    <meta name="twitter:image" content="og-image.jpg">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%90%3C/text%3E%3C/svg%3E">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <meta name="theme-color" content="#7c5cff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Hệ Mặt Trời">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Audiowide&family=Sora:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="planet.css">
+</head>
+
+<body>
+    <audio id="bgMusic" loop>
+    <source src="tfr.mp3" type="audio/mpeg">
+</audio>
+    <div id="warp-overlay">
+        <div class="streaks"></div>
+    </div>
+
+    <nav>
+        <div class="logo" data-route="banner">HỆ<span>·</span>MẶT·TRỜI</div>
+        <ul class="nav-links">
+            <li><a data-route="banner" data-i18n="navHome">Trang chủ</a></li>
+            <li><a data-route="solar" data-i18n="navSolar">Vũ trụ 3D</a></li>
+            <li><a data-route="planets" data-i18n="navPlanets">Hành tinh</a></li>
+            <li><a data-route="quiz" data-i18n="navQuiz">Đố vui</a></li>
+            <li>
+                <div class="lang-toggle" id="langToggle" title="Switch language / Đổi ngôn ngữ">
+                    <span id="langBtnVi" data-lang="vi">VI</span><span id="langBtnEn" data-lang="en">EN</span>
+                </div>
+            </li>
+            <li>
+                <a id="themeToggle" title="Sáng/Tối" role="button" aria-label="Chuyển chế độ sáng/tối" tabindex="0" style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;border:1px solid var(--ov-2);cursor:pointer;">🌙</a>
+            </li>
+            <li>
+                <a id="musicToggle" title="Nhạc nền không gian" role="button" aria-label="Bật/tắt nhạc nền" tabindex="0" style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;border:1px solid var(--ov-2);cursor:pointer;">🔈</a>
+            </li>
+            <li>
+                <a id="fullscreenToggle" title="Toàn màn hình" role="button" aria-label="Bật/tắt toàn màn hình" tabindex="0" style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;border:1px solid var(--ov-2);cursor:pointer;">⛶</a>
+            </li>
+            <li id="navLoginItem"><a data-route="login" class="btn-ghost" data-i18n="navLogin">Đăng nhập</a></li>
+            <li id="navRegisterItem"><a data-route="register" class="btn-solid" data-i18n="navRegister">Đăng ký</a></li>
+            <li id="navUserItem" style="display:none;align-items:center;gap:14px;">
+                <a id="navUserEmail" data-route="account" style="font-size:13px;color:var(--text-dust);cursor:pointer;text-decoration:none;"></a>
+                <a id="navLogoutBtn" class="btn-ghost" data-i18n="navLogout">Đăng xuất</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- ================= PAGE: BANNER (HOME) ================= -->
+    <section class="page" id="page-banner">
+        <div class="banner-hero">
+            <div class="banner-silhouettes" aria-hidden="true">
+                <div class="silhouette" style="width:90px;height:90px;top:14%;left:8%;background:radial-gradient(circle at 32% 30%, rgba(255,179,71,0.55), rgba(255,179,71,0.08) 70%);--drift-x:20px;--drift-y:-14px;animation-duration:22s;"></div>
+                <div class="silhouette" style="width:46px;height:46px;top:24%;right:12%;background:radial-gradient(circle at 32% 30%, rgba(124,92,255,0.55), rgba(124,92,255,0.08) 70%);--drift-x:-16px;--drift-y:18px;animation-duration:17s;"></div>
+                <div class="silhouette" style="width:130px;height:130px;bottom:10%;left:14%;background:radial-gradient(circle at 32% 30%, rgba(255,95,168,0.4), rgba(255,95,168,0.06) 70%);--drift-x:26px;--drift-y:12px;animation-duration:28s;"></div>
+                <div class="silhouette" style="width:60px;height:60px;bottom:20%;right:9%;background:radial-gradient(circle at 32% 30%, rgba(157,148,196,0.5), rgba(157,148,196,0.08) 70%);--drift-x:-22px;--drift-y:-10px;animation-duration:19s;"></div>
+                <div class="silhouette" style="width:30px;height:30px;top:60%;left:48%;background:radial-gradient(circle at 32% 30%, rgba(255,255,255,0.4), rgba(255,255,255,0.05) 70%);--drift-x:14px;--drift-y:20px;animation-duration:15s;"></div>
+                <div class="silhouette" style="width:70px;height:70px;top:8%;left:44%;background:radial-gradient(circle at 32% 30%, rgba(124,92,255,0.35), rgba(124,92,255,0.05) 70%);--drift-x:-18px;--drift-y:16px;animation-duration:24s;"></div>
+            </div>
+            <div class="banner-copy">
+                <div class="eyebrow" data-i18n="heroEyebrow">Du hành liên hành tinh · 3D tương tác</div>
+                <h1 class="hero-title-standalone" id="bannerTitle" data-i18n="heroTitle">Chạm vào<br>Hệ Mặt Trời</h1>
+                <p data-i18n="heroDesc">Tám hành tinh, một ngôi sao, và hàng tỷ km bóng tối giữa chúng. Kéo để xoay, chạm vào một hành tinh để khám phá.</p>
+            </div>
+            <button type="button" class="banner-cta" data-route="solar" data-i18n="heroCta">Khám phá mô hình 3D →</button>
+            <div class="banner-hint" data-i18n="heroHint">Kéo · Chạm để khám phá</div>
+        </div>
+    </section>
+
+    <!-- ================= PAGE: SOLAR 3D ================= -->
+    <section class="page" id="page-solar">
+        <div class="hero">
+            <canvas id="solar-canvas"></canvas>
+            <div class="hero-hint"><span data-i18n="heroHint">Kéo · Chạm để khám phá</span>
+                <div class="line"></div>
+            </div>
+            <div class="hero-fact" id="heroFact">
+                <span class="fact-tag" data-i18n="heroFactTag">Bạn có biết?</span>
+                <span id="heroFactText"></span>
+            </div>
+            <div class="planet-panel" id="planetPanel">
+                <button class="p-close" id="panelClose" aria-label="Đóng bảng thông tin hành tinh">✕</button>
+                <div class="p-eyebrow" id="pOrder">Hành tinh thứ 3</div>
+                <h3 id="pName">Trái Đất</h3>
+                <p id="pDesc">—</p>
+                <div class="p-stats">
+                    <div class="p-stat">
+                        <div class="label" data-i18n="statDiameter">Đường kính</div>
+                        <div class="value" id="pSize">—</div>
+                    </div>
+                    <div class="p-stat">
+                        <div class="label" data-i18n="statDistance">Khoảng cách tới Mặt Trời</div>
+                        <div class="value" id="pDist">—</div>
+                    </div>
+                    <div class="p-stat">
+                        <div class="label" data-i18n="statMoons">Số vệ tinh</div>
+                        <div class="value" id="pMoons">—</div>
+                    </div>
+                    <div class="p-stat">
+                        <div class="label" data-i18n="statDay">Một ngày dài</div>
+                        <div class="value" id="pDay">—</div>
+                    </div>
+                </div>
+                <button type="button" class="fly-toggle-btn" id="flyToggleBtn" data-i18n="flyStart">🚀 Bay cùng hành tinh</button>
+            </div>
+            <div class="planet-panel" id="sunPanel">
+                <button class="p-close" id="sunPanelClose" aria-label="Đóng bảng thông tin Mặt Trời">✕</button>
+                <div class="p-eyebrow" data-i18n="sunEyebrow">Ngôi sao trung tâm</div>
+                <h3 data-i18n="sunName">Mặt Trời</h3>
+                <p data-i18n="sunDesc">Ngôi sao ở trung tâm hệ Mặt Trời, chiếm hơn 99,8% khối lượng toàn hệ. Là quả cầu plasma khổng lồ, tạo ra ánh sáng và nhiệt qua phản ứng nhiệt hạch trong lõi.</p>
+                <div class="p-stats">
+                    <div class="p-stat">
+                        <div class="label" data-i18n="sunType">Loại sao</div>
+                        <div class="value" data-i18n="sunTypeVal">Sao lùn vàng loại G</div>
+                    </div>
+                    <div class="p-stat">
+                        <div class="label" data-i18n="statDiameter">Đường kính</div>
+                        <div class="value">1.392.700 km</div>
+                    </div>
+                    <div class="p-stat">
+                        <div class="label" data-i18n="sunSurfaceTemp">Nhiệt độ bề mặt</div>
+                        <div class="value">~5.500°C</div>
+                    </div>
+                    <div class="p-stat">
+                        <div class="label" data-i18n="sunAge">Tuổi</div>
+                        <div class="value" data-i18n="sunAgeVal">~4,6 tỷ năm</div>
+                    </div>
+                </div>
+            </div>
+            <div class="speed-control" id="speedControl">
+                <span class="speed-label" data-i18n="speedLabel">Tốc độ quỹ đạo</span>
+                <div class="speed-btns">
+                    <button type="button" class="speed-btn active" data-speed="1">1×</button>
+                    <button type="button" class="speed-btn" data-speed="5">5×</button>
+                    <button type="button" class="speed-btn" data-speed="20">20×</button>
+                    <button type="button" class="speed-btn" data-speed="60">60×</button>
+                </div>
+            </div>
+            <div class="goto-info" data-route="planets" data-i18n="heroGoto">Xem thông tin chi tiết →</div>
+        </div>
+    </section>
+
+    <!-- ================= PAGE: PLANET INFO ================= -->
+    <section class="page" id="page-planets">
+        <div class="wrap">
+            <div class="info-head">
+                <div>
+                    <div class="tag" data-i18n="planetsTag">Danh mục hành tinh</div>
+                    <h2 data-i18n="planetsTitle">Tám thế giới, tám câu chuyện</h2>
+                </div>
+                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                    <input id="planetSearch" type="text" data-i18n-ph="planetSearchPh" placeholder="Tìm hành tinh…" style="padding:9px 14px;border-radius:999px;background:var(--ov-05);border:1px solid var(--ov-15);color:var(--text-star);font-size:13px;outline:none;min-width:160px;">
+                    <button id="compareToggle" type="button" data-i18n="compareBtn" style="padding:9px 16px;border-radius:999px;border:1px solid rgba(124,92,255,0.4);background:transparent;color:var(--text-star);font-size:13px;cursor:pointer;">So sánh hành tinh</button>
+                </div>
+            </div>
+
+            <div class="sun-feature-card">
+                <div class="sun-feature-orb" aria-hidden="true"></div>
+                <div class="sun-feature-body">
+                    <div class="tag" data-i18n="sunEyebrow">Ngôi sao trung tâm</div>
+                    <h3 data-i18n="sunName">Mặt Trời</h3>
+                    <p data-i18n="sunDesc">Ngôi sao ở trung tâm hệ Mặt Trời, chiếm hơn 99,8% khối lượng toàn hệ. Là quả cầu plasma khổng lồ, tạo ra ánh sáng và nhiệt qua phản ứng nhiệt hạch trong lõi.</p>
+                    <div class="sun-feature-stats">
+                        <div><span class="label" data-i18n="sunType">Loại sao</span><span class="value" data-i18n="sunTypeVal">Sao lùn vàng loại G</span></div>
+                        <div><span class="label" data-i18n="statDiameter">Đường kính</span><span class="value">1.392.700 km</span></div>
+                        <div><span class="label" data-i18n="sunSurfaceTemp">Nhiệt độ bề mặt</span><span class="value">~5.500°C</span></div>
+                        <div><span class="label" data-i18n="sunAge">Tuổi</span><span class="value" data-i18n="sunAgeVal">~4,6 tỷ năm</span></div>
+                    </div>
+                    <button type="button" class="sun-feature-cta" data-route="solar" data-i18n="sunViewIn3d">Xem trong mô hình 3D →</button>
+                </div>
+            </div>
+
+            <div id="normalView" style="display:contents;">
+                <div class="planet-list" id="planetList"></div>
+                <div class="detail-card" id="detailCard"></div>
+            </div>
+
+            <div id="compareView" style="display:none;grid-column:1/-1;">
+                <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:24px;">
+                    <select id="compareA" style="flex:1;min-width:180px;padding:10px 14px;border-radius:10px;background:var(--ov-05);border:1px solid var(--ov-15);color:var(--text-star);font-size:14px;"></select>
+                    <select id="compareB" style="flex:1;min-width:180px;padding:10px 14px;border-radius:10px;background:var(--ov-05);border:1px solid var(--ov-15);color:var(--text-star);font-size:14px;"></select>
+                </div>
+                <div id="compareGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;"></div>
+            </div>
+
+            <div class="bonus-info">
+                <div class="tag" data-i18n="bonusTag">Ngoài tám hành tinh</div>
+                <h2 style="font-family:var(--font-display);font-size:clamp(1.3rem,2.4vw,1.8rem);margin-top:8px;" data-i18n="bonusTitle">Còn gì khác trong hệ Mặt Trời?</h2>
+                <div class="bonus-grid">
+                    <div class="bonus-card">
+                        <h4 data-i18n="asteroidTitle">☄️ Vành đai tiểu hành tinh</h4>
+                        <p data-i18n="asteroidDesc">Nằm giữa Sao Hỏa và Sao Mộc, chứa hàng triệu khối đá còn sót lại từ thuở hình thành hệ Mặt Trời. Ceres, hành tinh lùn lớn nhất khu vực này, cũng nằm ở đây.</p>
+                    </div>
+                    <div class="bonus-card">
+                        <h4 data-i18n="dwarfTitle">🪐 Hành tinh lùn</h4>
+                        <p data-i18n="dwarfDesc">Sao Diêm Vương, Eris, Haumea, Makemake và Ceres không đủ tiêu chí để là hành tinh chính thức, nhưng vẫn đủ lớn để có hình cầu nhờ trọng lực của chính chúng.</p>
+                    </div>
+                    <div class="bonus-card">
+                        <h4 data-i18n="kuiperTitle">🧊 Vành đai Kuiper</h4>
+                        <p data-i18n="kuiperDesc">Vùng băng giá phía ngoài Sao Hải Vương, nơi lưu giữ những "hóa thạch" băng đá từ 4,6 tỷ năm trước — bao gồm cả Sao Diêm Vương.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer><span data-i18n="footerNasa">Dữ liệu tham khảo NASA</span> · <span data-i18n="footerBuilt">Trải nghiệm 3D dựng bằng</span> <span>Three.js</span></footer>
+    </section>
+
+    <!-- ================= PAGE: QUIZ ================= -->
+    <section class="page" id="page-quiz">
+        <div class="wrap">
+            <div class="info-head">
+                <div>
+                    <div class="tag" data-i18n="quizTag">Kiến thức vũ trụ</div>
+                    <h2 data-i18n="quizTitle">Đố vui về hệ Mặt Trời</h2>
+                </div>
+                <div class="sub" data-i18n="quizSub">Trả lời 6 câu hỏi để kiểm tra hiểu biết của bạn.</div>
+            </div>
+            <div id="quizArea"></div>
+        </div>
+        <footer data-i18n="footerNasa">Dữ liệu tham khảo NASA</footer>
+    </section>
+
+    <!-- ================= PAGE: LOGIN ================= -->
+    <section class="page" id="page-login">
+        <div class="auth-wrap">
+            <div class="auth-bg"></div>
+            <div class="auth-card">
+                <div class="tag" data-i18n="loginTag">Chào mừng trở lại</div>
+                <h2 data-i18n="loginTitle">Đăng nhập</h2>
+                <div class="sub" data-i18n="loginSub">Tiếp tục hành trình khám phá vũ trụ của bạn.</div>
+                <form id="loginForm">
+                    <div class="field">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" placeholder="ban@vidu.com" required>
+                    </div>
+                    <div class="field">
+                        <label for="loginPass" data-i18n="fieldPassword">Mật khẩu</label>
+                        <input type="password" id="loginPass" data-i18n-ph="loginPassPh" placeholder="Nhập mật khẩu" required>
+                    </div>
+                    <div class="field-error" id="loginError" data-i18n="loginError">Email hoặc mật khẩu không đúng.</div>
+                    <button type="submit" class="auth-submit" data-i18n="loginSubmit">Đăng nhập</button>
+                    <div class="auth-msg" id="loginMsg" data-i18n="loginMsg">Đăng nhập thành công! Đang chuyển hướng…</div>
+                </form>
+                <div class="auth-switch"><span data-i18n="loginNoAccount">Chưa có tài khoản?</span> <a data-route="register" data-i18n="loginRegisterNow">Đăng ký ngay</a></div>
+                <div class="auth-switch" style="margin-top:8px;"><a data-route="forgot" data-i18n="loginForgot">Quên mật khẩu?</a></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= PAGE: REGISTER ================= -->
+    <section class="page" id="page-register">
+        <div class="auth-wrap">
+            <div class="auth-bg"></div>
+            <div class="auth-card">
+                <div class="tag" data-i18n="regTag">Bắt đầu hành trình</div>
+                <h2 data-i18n="regTitle">Tạo tài khoản</h2>
+                <div class="sub" data-i18n="regSub">Lưu lại các hành tinh yêu thích và tiếp tục khám phá.</div>
+                <form id="registerForm">
+                    <div class="field">
+                        <label for="regEmail">Email</label>
+                        <input type="email" id="regEmail" placeholder="ban@vidu.com" required>
+                        <div class="field-error" id="regEmailError" data-i18n="regEmailError">Email này đã được đăng ký.</div>
+                    </div>
+                    <div class="field">
+                        <label for="regPass" data-i18n="fieldPassword">Mật khẩu</label>
+                        <input type="password" id="regPass" data-i18n-ph="minChars" placeholder="Tối thiểu 6 ký tự" required minlength="6">
+                    </div>
+                    <div class="field">
+                        <label for="regPass2" data-i18n="fieldConfirmPassword">Xác nhận mật khẩu</label>
+                        <input type="password" id="regPass2" data-i18n-ph="reenterPass" placeholder="Nhập lại mật khẩu" required minlength="6">
+                        <div class="field-error" id="regError" data-i18n="mismatchError">Mật khẩu xác nhận không khớp.</div>
+                    </div>
+                    <div class="field">
+                        <label for="regQuestion" data-i18n="regQuestionLabel">Câu hỏi bảo mật (dùng để khôi phục mật khẩu)</label>
+                        <select id="regQuestion" style="width:100%;padding:12px 14px;border-radius:10px;background:var(--ov-05);border:1px solid var(--ov-14);color:var(--text-star);font-size:14px;">
+            <option value="pet" data-i18n="qPet">Tên thú cưng đầu tiên của bạn?</option>
+            <option value="school" data-i18n="qSchool">Trường tiểu học của bạn?</option>
+            <option value="city" data-i18n="qCity">Thành phố bạn sinh ra?</option>
+            <option value="planet" data-i18n="qPlanet">Hành tinh yêu thích của bạn?</option>
+          </select>
+                    </div>
+                    <div class="field">
+                        <label for="regAnswer" data-i18n="answerLabel">Câu trả lời</label>
+                        <input type="text" id="regAnswer" data-i18n-ph="answerPh" placeholder="Câu trả lời của bạn" required>
+                    </div>
+                    <button type="submit" class="auth-submit" data-i18n="regSubmit">Tạo tài khoản</button>
+                    <div class="auth-msg" id="regMsg" data-i18n="regMsg">Tạo tài khoản thành công! Đang chuyển hướng…</div>
+                </form>
+                <div class="auth-switch"><span data-i18n="regHaveAccount">Đã có tài khoản?</span> <a data-route="login" data-i18n="navLogin">Đăng nhập</a></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= PAGE: FORGOT PASSWORD ================= -->
+    <section class="page" id="page-forgot">
+        <div class="auth-wrap">
+            <div class="auth-bg"></div>
+            <div class="auth-card">
+                <div class="tag" data-i18n="forgotTag">Khôi phục truy cập</div>
+                <h2 data-i18n="forgotTitle">Quên mật khẩu</h2>
+                <div class="sub" data-i18n="forgotSub">Trả lời đúng câu hỏi bảo mật để đặt lại mật khẩu.</div>
+
+                <form id="forgotStep1">
+                    <div class="field">
+                        <label for="forgotEmail">Email</label>
+                        <input type="email" id="forgotEmail" placeholder="ban@vidu.com" required>
+                        <div class="field-error" id="forgotEmailError" data-i18n="forgotEmailError">Không tìm thấy tài khoản với email này.</div>
+                    </div>
+                    <button type="submit" class="auth-submit" data-i18n="continueBtn">Tiếp tục</button>
+                </form>
+
+                <form id="forgotStep2" style="display:none;">
+                    <div class="field">
+                        <label id="forgotQuestionLabel" style="color:var(--text-star);font-size:13.5px;"></label>
+                        <input type="text" id="forgotAnswer" data-i18n-ph="answerPh" placeholder="Câu trả lời của bạn" required style="margin-top:8px;">
+                        <div class="field-error" id="forgotAnswerError" data-i18n="forgotAnswerError">Câu trả lời chưa chính xác.</div>
+                    </div>
+                    <div class="field">
+                        <label for="forgotNewPass" data-i18n="newPasswordLabel">Mật khẩu mới</label>
+                        <input type="password" id="forgotNewPass" data-i18n-ph="minChars" placeholder="Tối thiểu 6 ký tự" required minlength="6">
+                    </div>
+                    <div class="field">
+                        <label for="forgotNewPass2" data-i18n="confirmNewPasswordLabel">Xác nhận mật khẩu mới</label>
+                        <input type="password" id="forgotNewPass2" data-i18n-ph="reenterNewPass" placeholder="Nhập lại mật khẩu mới" required minlength="6">
+                        <div class="field-error" id="forgotMismatchError" data-i18n="mismatchError">Mật khẩu xác nhận không khớp.</div>
+                    </div>
+                    <button type="submit" class="auth-submit" data-i18n="resetSubmit">Đặt lại mật khẩu</button>
+                    <div class="auth-msg" id="forgotMsg" data-i18n="forgotMsg">Đặt lại mật khẩu thành công! Đang chuyển tới đăng nhập…</div>
+                </form>
+
+                <div class="auth-switch"><span data-i18n="loginRemembered">Đã nhớ mật khẩu?</span> <a data-route="login" data-i18n="navLogin">Đăng nhập</a></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= PAGE: ACCOUNT ================= -->
+    <section class="page" id="page-account">
+        <div class="auth-wrap">
+            <div class="auth-bg"></div>
+            <div class="acct-grid">
+                <div class="auth-card" style="width:100%;">
+                    <div class="tag" data-i18n="acctTag">Tài khoản của bạn</div>
+                    <h2 data-i18n="acctTitle">Trạm điều khiển cá nhân</h2>
+                    <div class="sub" data-i18n="acctSub">Toàn bộ thông tin, tiến trình khám phá và bảo mật tài khoản của bạn.</div>
+
+                    <div class="acct-header">
+                        <div class="acct-avatar-wrap">
+                            <div class="acct-avatar-ring"></div>
+                            <div id="acctAvatar" class="acct-avatar-inner"></div>
+                        </div>
+                        <div>
+                            <div id="acctEmail" style="font-size:16px;font-weight:600;"></div>
+                            <div id="acctCreated" style="font-size:12.5px;color:var(--text-dust);margin-top:4px;"></div>
+                            <div id="acctTier" class="acct-tier"></div>
+                        </div>
+                    </div>
+
+                    <div class="acct-section-tag" data-i18n="acctJourney">Hành trình khám phá</div>
+                    <div class="explore-row">
+                        <span id="exploreCountText">0/8 hành tinh</span>
+                        <span id="exploreTierText"></span>
+                    </div>
+                    <div class="explore-track">
+                        <div class="explore-fill" id="exploreFill" style="width:0%;"></div>
+                    </div>
+                    <div class="explore-dots" id="exploreDots"></div>
+
+                    <div class="acct-section-tag" data-i18n="acctEditProfile">Chỉnh sửa hồ sơ</div>
+                    <form id="profileForm">
+                        <div class="field">
+                            <label for="profileName" data-i18n="displayNameLabel">Tên hiển thị</label>
+                            <input type="text" id="profileName" data-i18n-ph="displayNamePh" placeholder="Ví dụ: Nguyên Học IT" maxlength="40">
+                        </div>
+                        <div class="field">
+                            <label for="profilePlanet" data-i18n="favoritePlanetLabel">Hành tinh yêu thích</label>
+                            <select id="profilePlanet" style="width:100%;padding:12px 14px;border-radius:10px;background:var(--ov-05);border:1px solid var(--ov-14);color:var(--text-star);font-size:14px;"></select>
+                        </div>
+                        <button type="submit" class="auth-submit" data-i18n="saveProfileBtn">Lưu hồ sơ</button>
+                        <div class="auth-msg" id="profileMsg" data-i18n="profileSavedMsg">Đã lưu thông tin hồ sơ!</div>
+                    </form>
+
+                    <div class="acct-section-tag" style="margin-top:28px;" data-i18n="acctSecurity">Bảo mật · Đổi mật khẩu</div>
+                    <form id="changePassForm">
+                        <div class="field">
+                            <label for="curPass" data-i18n="currentPasswordLabel">Mật khẩu hiện tại</label>
+                            <input type="password" id="curPass" data-i18n-ph="currentPasswordPh" placeholder="Nhập mật khẩu hiện tại" required>
+                            <div class="field-error" id="curPassError" data-i18n="curPassError">Mật khẩu hiện tại không đúng.</div>
+                        </div>
+                        <div class="field">
+                            <label for="newPass" data-i18n="newPasswordLabel">Mật khẩu mới</label>
+                            <input type="password" id="newPass" data-i18n-ph="minChars" placeholder="Tối thiểu 6 ký tự" required minlength="6">
+                        </div>
+                        <div class="field">
+                            <label for="newPass2" data-i18n="confirmNewPasswordLabel">Xác nhận mật khẩu mới</label>
+                            <input type="password" id="newPass2" data-i18n-ph="reenterNewPass" placeholder="Nhập lại mật khẩu mới" required minlength="6">
+                            <div class="field-error" id="newPassError" data-i18n="mismatchError">Mật khẩu xác nhận không khớp.</div>
+                        </div>
+                        <button type="submit" class="auth-submit" data-i18n="updatePasswordBtn">Cập nhật mật khẩu</button>
+                        <div class="auth-msg" id="changePassMsg" data-i18n="passwordChangedMsg">Đổi mật khẩu thành công!</div>
+                    </form>
+
+                    <div style="margin-top:22px;">
+                        <a id="acctLogout" style="font-size:13px;color:var(--text-dust);cursor:pointer;" data-i18n="acctLogoutLink">← Đăng xuất khỏi tài khoản</a>
+                    </div>
+
+                    <div class="danger-zone">
+                        <h4 data-i18n="dangerZoneTitle">Vùng nguy hiểm</h4>
+                        <p data-i18n="dangerZoneDesc">Xoá tài khoản sẽ xoá vĩnh viễn thông tin đăng nhập và tiến trình khám phá đã lưu trên trình duyệt này. Hành động này không thể hoàn tác.</p>
+                        <button class="danger-btn" id="acctDelete" type="button" data-i18n="deleteAccountBtn">Xoá tài khoản</button>
+                    </div>
+                </div>
+
+                <!-- Game-style 3D planet showcase -->
+                <div class="profile-stage">
+                    <div class="profile-stage-tag" data-i18n="profileStageTag">Hành tinh của bạn</div>
+                    <div class="profile-stage-orb">
+                        <div class="profile-stage-ring"></div>
+                        <div class="profile-stage-ring r2"></div>
+                        <canvas id="profileCanvas"></canvas>
+                    </div>
+                    <div class="profile-stage-name" id="profileStageName">—</div>
+                    <div class="profile-stage-order" id="profileStageOrder">—</div>
+                    <div class="profile-level-badge" id="profileLevelBadge">—</div>
+                    <div class="profile-stat-grid">
+                        <div>
+                            <div class="label" data-i18n="statDiameter">Đường kính</div>
+                            <div class="value" id="profileStatSize">—</div>
+                        </div>
+                        <div>
+                            <div class="label" data-i18n="statMoons">Số vệ tinh</div>
+                            <div class="value" id="profileStatMoons">—</div>
+                        </div>
+                        <div>
+                            <div class="label" data-i18n="statTemp">Nhiệt độ</div>
+                            <div class="value" id="profileStatTemp">—</div>
+                        </div>
+                        <div>
+                            <div class="label" data-i18n="statDay">Một ngày dài</div>
+                            <div class="value" id="profileStatDay">—</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <script src="planet.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').catch(() => {});
+            });
+        }
+    </script>
+
+</body>
+
+</html>
