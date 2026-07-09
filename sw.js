@@ -1,7 +1,7 @@
 // Service worker tối giản — chỉ để Chrome công nhận trang là PWA có thể cài đặt.
 // Cache nhẹ các file tĩnh chính để trang mở nhanh hơn ở lần sau (và có thể mở lại khi mất mạng).
 
-const CACHE_NAME = 'he-mat-troi-v1';
+const CACHE_NAME = 'he-mat-troi-v2';
 const CORE_ASSETS = [
   './',
   './index.html',
